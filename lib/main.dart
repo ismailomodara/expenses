@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/expenses_chart.dart';
+import 'widgets/expenses.dart';
 
 void main() {
   runApp(const ExpensesApp());
@@ -21,18 +22,23 @@ class ExpensesApp extends StatelessWidget {
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
+  test() {}
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Personal Expenses'),
+          backgroundColor: Colors.teal,
         ),
         body: Container(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(15),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
               ExpensesChart(),
+              Expenses(),
             ],
           ),
         ),
