@@ -1,45 +1,40 @@
 import 'package:flutter/material.dart';
+import 'widgets/expenses_chart.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ExpensesApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class ExpensesApp extends StatelessWidget {
+  const ExpensesApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
+      title: 'Personal Expenses',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const Home(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Personal Expenses'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '2',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Personal Expenses'),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            children: const [
+              ExpensesChart(),
+            ],
+          ),
         ),
       ),
     );
