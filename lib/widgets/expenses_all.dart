@@ -1,75 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/expense_add.dart';
-import '../models/expense.dart';
 
-class Expenses extends StatefulWidget {
-  const Expenses({Key? key}) : super(key: key);
-
-  @override
-  _ExpensesState createState() => _ExpensesState();
-}
-
-class _ExpensesState extends State<Expenses> {
-  final List<Expense> _expenses = [
-    Expense(
-      id: 't1',
-      title: 'Reebok White Sneakers',
-      amount: 20.99,
-      date: DateTime.now(),
-    ),
-    Expense(
-      id: 't2',
-      title: 'Diary Milk Chocolate',
-      amount: 4.99,
-      date: DateTime.now(),
-    ),
-    Expense(
-      id: 't3',
-      title: 'Pulpy Orange Juice 1L',
-      amount: 0.99,
-      date: DateTime.now(),
-    ),
-    Expense(
-      id: 't4',
-      title: 'Toilet Paper (6 packs)',
-      amount: 7.99,
-      date: DateTime.now(),
-    ),
-    Expense(
-      id: 't4',
-      title: 'Toilet Paper (6 packs)',
-      amount: 7.99,
-      date: DateTime.now(),
-    )
-  ];
-
-  addExpense(String title, double amount) {
-    var newEx = Expense(
-        id: 't${_expenses.length}',
-        title: title,
-        amount: amount,
-        date: DateTime.now());
-    setState(() {
-      _expenses.add(newEx);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          ExpenseAdd(addExpense),
-          ExpensesList(_expenses),
-        ],
-      ),
-    );
-  }
-}
-
-class ExpensesList extends StatelessWidget {
+class ExpensesAll extends StatelessWidget {
   final List _expenses;
-  const ExpensesList(this._expenses, {Key? key}) : super(key: key);
+
+  const ExpensesAll(this._expenses, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

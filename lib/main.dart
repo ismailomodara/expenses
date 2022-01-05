@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'widgets/expenses_chart.dart';
-import 'widgets/expenses.dart';
+import 'widgets/expense_add.dart';
+import 'widgets/expenses_all.dart';
+import 'models/expenses.dart';
 
 void main() {
   runApp(const ExpensesApp());
@@ -19,10 +21,21 @@ class ExpensesApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
-  test() {}
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final Expenses expenses = Expenses();
+
+  addExpense(String title, double amount) {
+    setState(() {
+      expenses.addExpense(title, amount);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +49,10 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const [
-              ExpensesChart(),
-              Expenses(),
+            children: [
+              const ExpensesChart(),
+              ExpenseAdd(addExpense),
+              ExpensesAll(expenses.getExpenses()),
             ],
           ),
         ),
