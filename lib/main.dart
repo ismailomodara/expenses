@@ -32,9 +32,22 @@ class _HomeState extends State<Home> {
   final Expenses expenses = Expenses();
 
   addExpense(String title, double amount) {
+    if (title.isEmpty || amount <= 0) {
+      return;
+    }
     setState(() {
       expenses.addExpense(title, amount);
     });
+    Navigator.pop(context);
+  }
+
+  void showExpenseAdd(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (bContext) {
+        return ExpenseAdd(addExpense);
+      },
+    );
   }
 
   @override
@@ -44,6 +57,12 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: const Text('Personal Expenses'),
           backgroundColor: Colors.teal,
+          actions: [
+            IconButton(
+              onPressed: () => showExpenseAdd(context),
+              icon: const Icon(Icons.add),
+            )
+          ],
         ),
         body: Container(
           padding: const EdgeInsets.all(15),
@@ -51,11 +70,16 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const ExpensesChart(),
-              ExpenseAdd(addExpense),
               ExpensesAll(expenses.getExpenses()),
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.teal,
+          child: const Icon(Icons.add),
+          onPressed: () => showExpenseAdd(context),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

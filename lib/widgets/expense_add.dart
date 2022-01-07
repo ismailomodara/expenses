@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 
-class ExpenseAdd extends StatelessWidget {
-  ExpenseAdd(this.addExpense, {Key? key}) : super(key: key);
+class ExpenseAdd extends StatefulWidget {
+  const ExpenseAdd(this.addExpense, {Key? key}) : super(key: key);
 
+  final Function addExpense;
+
+  @override
+  State<ExpenseAdd> createState() => _ExpenseAddState();
+}
+
+class _ExpenseAddState extends State<ExpenseAdd> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
-  final Function addExpense;
+  void addExpense() {
+    widget.addExpense(
+      titleController.text,
+      double.parse(amountController.text),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +36,12 @@ class ExpenseAdd extends StatelessWidget {
               height: 10,
             ),
             TextField(
-              decoration: const InputDecoration(labelText: 'Amount'),
-              controller: amountController,
-            ),
+                decoration: const InputDecoration(labelText: 'Amount'),
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                onEditingComplete: addExpense),
             TextButton(
-              onPressed: () {
-                addExpense(
-                  titleController.text,
-                  double.parse(amountController.text),
-                );
-              },
+              onPressed: () => addExpense,
               child: const Text(
                 'Add Expense',
                 style: TextStyle(
