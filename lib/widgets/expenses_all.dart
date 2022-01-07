@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ExpensesAll extends StatelessWidget {
   final List _expenses;
@@ -21,9 +22,9 @@ class ExpensesAll extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 10.0),
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 0),
-                    decoration: const BoxDecoration(
-                      color: Colors.teal,
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(
                           8.0,
                         ),
@@ -43,13 +44,13 @@ class ExpensesAll extends StatelessWidget {
                     children: [
                       Text(
                         _expenses[index].title,
-                        style: const TextStyle(fontSize: 16),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        _expenses[index].date.toString(),
+                        DateFormat('MMM d, yyyy').format(_expenses[index].date),
                         style: const TextStyle(
                           fontSize: 12,
                         ),

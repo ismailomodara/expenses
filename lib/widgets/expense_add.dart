@@ -42,12 +42,11 @@ class _ExpenseAddState extends State<ExpenseAdd> {
                 onEditingComplete: addExpense),
             TextButton(
               onPressed: () => addExpense,
-              child: const Text(
+              child: Text(
                 'Add Expense',
                 style: TextStyle(
-                  color: Colors.teal,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColorDark),
               ),
             ),
           ],
