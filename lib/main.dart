@@ -20,9 +20,14 @@ class ExpensesApp extends StatelessWidget {
         fontFamily: 'Lato',
         textTheme: ThemeData.light().textTheme.copyWith(
               titleSmall: const TextStyle(
-                  fontFamily: 'Comfortaa',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'Comfortaa',
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+        buttonTheme: ThemeData.light().buttonTheme.copyWith(
+              buttonColor: Colors.red,
+              highlightColor: Colors.red,
             ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -46,14 +51,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final Expenses expenses = Expenses();
 
-  addExpense(String title, double amount) {
+  addExpense(String title, double amount, DateTime date) {
     if (title.isEmpty || amount <= 0) {
       return;
     }
     setState(() {
-      expenses.addExpense(title, amount);
+      expenses.addExpense(title, amount, date);
     });
     Navigator.pop(context);
+  }
+
+  deleteExpense(String id) {
+    setState(() {
+      expenses.deleteExpense(id);
+    });
   }
 
   void showExpenseAdd(BuildContext context) {
@@ -84,8 +95,8 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const ExpensesChart(),
-              ExpensesAll(expenses.getExpenses()),
+              ExpensesChart(expenses.getRecentExpenses()),
+              ExpensesAll(expenses.getExpenses(), deleteExpense),
             ],
           ),
         ),

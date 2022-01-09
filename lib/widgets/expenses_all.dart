@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 
 class ExpensesAll extends StatelessWidget {
   final List _expenses;
+  Function deleteExpense;
 
-  const ExpensesAll(this._expenses, {Key? key}) : super(key: key);
+  ExpensesAll(this._expenses, this.deleteExpense, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,51 +14,43 @@ class ExpensesAll extends StatelessWidget {
       child: ListView.builder(
         itemBuilder: (context, index) {
           return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  Container(
-                    width: 60,
-                    margin: const EdgeInsets.only(right: 10.0),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 0),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          8.0,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      _expenses[index].amount.toString(),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+            child: ListTile(
+              leading: Container(
+                width: 60,
+                margin: const EdgeInsets.only(right: 10.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(
+                      8.0,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _expenses[index].title,
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        DateFormat('MMM d, yyyy').format(_expenses[index].date),
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+                ),
+                child: Text(
+                  _expenses[index].amount.toStringAsFixed(2),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              title: Text(
+                _expenses[index].title,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              subtitle: Text(
+                DateFormat('MMM d, yyyy').format(_expenses[index].date),
+                style: const TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                color: Theme.of(context).primaryColorLight,
+                onPressed: () => deleteExpense(_expenses[index].id),
               ),
             ),
           );

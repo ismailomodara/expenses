@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ExpenseAdd extends StatefulWidget {
   const ExpenseAdd(this.addExpense, {Key? key}) : super(key: key);
@@ -10,14 +11,27 @@ class ExpenseAdd extends StatefulWidget {
 }
 
 class _ExpenseAddState extends State<ExpenseAdd> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final _expenseTitleController = TextEditingController();
+  final _expenseAmountController = TextEditingController();
+  DateTime? _expenseDate;
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: _expenseDate ?? DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime.now(),
+    ).then((date) {
+      if (date == null) {
+        return;
+      }
+      _expenseDate = date;
+    });
+  }
 
   void addExpense() {
-    widget.addExpense(
-      titleController.text,
-      double.parse(amountController.text),
-    );
+    widget.addExpense(_expenseTitleController.text,
+        double.parse(_expenseAmountController.text), _expenseDate);
   }
 
   @override
@@ -30,23 +44,42 @@ class _ExpenseAddState extends State<ExpenseAdd> {
           children: [
             TextField(
               decoration: const InputDecoration(labelText: 'Title'),
-              controller: titleController,
+              controller: _expenseTitleController,
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
                 decoration: const InputDecoration(labelText: 'Amount'),
-                controller: amountController,
+                controller: _expenseAmountController,
                 keyboardType: TextInputType.number,
                 onEditingComplete: addExpense),
-            TextButton(
-              onPressed: () => addExpense,
-              child: Text(
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _expenseDate == null
+                      ? 'No date chosen'
+                      : DateFormat.yMMMd().format(_expenseDate!),
+                ),
+                TextButton(
+                  onPressed: _showDatePicker,
+                  child: Text(
+                      _expenseDate == null ? 'Choose date' : 'Change date'),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: addExpense,
+              child: const Text(
                 'Add Expense',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColorDark),
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ],
