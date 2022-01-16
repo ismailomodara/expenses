@@ -6,19 +6,37 @@ class Expenses {
       id: 't1',
       title: 'Reebok Sneakers',
       amount: 20.99,
-      date: DateTime.now(),
+      date: DateTime.parse('2022-01-10'),
     ),
     Expense(
       id: 't2',
       title: 'Gown',
       amount: 12.99,
-      date: DateTime.now(),
+      date: DateTime.parse('2022-01-11'),
     ),
     Expense(
       id: 't3',
       title: 'Wrist Watch',
       amount: 3.99,
-      date: DateTime.now(),
+      date: DateTime.parse('2022-01-10'),
+    ),
+    Expense(
+      id: 't4',
+      title: 'Reebok Sneakers',
+      amount: 20.99,
+      date: DateTime.parse('2022-01-12'),
+    ),
+    Expense(
+      id: 't5',
+      title: 'Gown',
+      amount: 12.99,
+      date: DateTime.parse('2022-01-13'),
+    ),
+    Expense(
+      id: 't6',
+      title: 'Wrist Watch',
+      amount: 3.99,
+      date: DateTime.parse('2022-01-14'),
     ),
   ];
 

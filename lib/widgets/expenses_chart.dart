@@ -38,15 +38,17 @@ class ExpensesChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 20.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: groupedExpenses.map((ex) {
-            return ChartBar(ex['day'], ex['amount']);
-          }).toList(),
+    return SizedBox(
+      child: Card(
+        margin: const EdgeInsets.only(bottom: 20.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupedExpenses.map((ex) {
+              return ChartBar(ex['day'], ex['amount']);
+            }).toList(),
+          ),
         ),
       ),
     );
@@ -62,8 +64,15 @@ class ChartBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('\$${amount.toStringAsFixed(2)}'),
+        SizedBox(
+          width: 40,
+          child: Text(
+            '\$${amount.toStringAsFixed(2)}',
+            textAlign: TextAlign.center,
+          ),
+        ),
         const SizedBox(
           height: 4,
         ),
@@ -75,15 +84,20 @@ class ChartBar extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey, width: 1.0),
-                  color: const Color.fromRGBO(220, 220, 220, 1),
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
               Container(
-                height: amount,
+                height: 100 - amount,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromRGBO(220, 220, 220, 1),
+                  borderRadius: amount == 0
+                      ? const BorderRadius.all(Radius.circular(5))
+                      : const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
                 ),
               ),
             ],

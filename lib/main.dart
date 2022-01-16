@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'widgets/expenses_chart.dart';
 import 'widgets/expense_add.dart';
 import 'widgets/expenses_all.dart';
 import 'models/expenses.dart';
 
 void main() {
+  WidgetsFlutterBinding();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
   runApp(const ExpensesApp());
 }
 
@@ -78,26 +85,45 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: const Text('Personal Expenses'),
+      backgroundColor: Colors.teal,
+      actions: [
+        IconButton(
+          onPressed: () => showExpenseAdd(context),
+          icon: const Icon(Icons.add),
+        )
+      ],
+    );
+
+    final excludingHeight =
+        MediaQuery.of(context).padding.top + appBar.preferredSize.height + 30;
+
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Personal Expenses'),
-          backgroundColor: Colors.teal,
-          actions: [
-            IconButton(
-              onPressed: () => showExpenseAdd(context),
-              icon: const Icon(Icons.add),
-            )
-          ],
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ExpensesChart(expenses.getRecentExpenses()),
-              ExpensesAll(expenses.getExpenses(), deleteExpense),
-            ],
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  height:
+                      (MediaQuery.of(context).size.height - excludingHeight) *
+                          0.3,
+                  child: ExpensesChart(
+                    expenses.getRecentExpenses(),
+                  ),
+                ),
+                SizedBox(
+                  height:
+                      (MediaQuery.of(context).size.height - excludingHeight) *
+                          0.7,
+                  child: ExpensesAll(expenses.getExpenses(), deleteExpense),
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
